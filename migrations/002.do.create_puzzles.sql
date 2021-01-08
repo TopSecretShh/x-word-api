@@ -6,6 +6,6 @@ CREATE TABLE puzzles (
     cols INTEGER NOT NULL,
     -- figure out cells. can you do boolean || text ??
     cells BOOLEAN || TEXT [] NOT NULL,
-    cellId INTEGER NOT NULL,
+    cellId INTEGER [] NOT NULL,
     clues TEXT [][] NOT NULL
 )
