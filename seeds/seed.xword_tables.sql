@@ -11,9 +11,9 @@ INSERT INTO users (user_name, password) VALUES
         'bob'
     );
 
-INSERT INTO puzzles (user_name, title, rows, cols, cells, cellId, clues) VALUES 
+INSERT INTO puzzles (user_id, title, rows, cols, blocks, letters, cellId, clues) VALUES 
     (
-        'Bob',
+        1,
         'Small',
         3,
         3,
@@ -29,6 +29,9 @@ INSERT INTO puzzles (user_name, title, rows, cols, cells, cellId, clues) VALUES
             "true"
         }',
         '{
+            "", "", "", "", "", "", "", "", ""
+        }',
+        '{
             "0", "1", "2", "3", "4", "5", "6", "7", "8"
         }',
         '{
@@ -38,3 +41,5 @@ INSERT INTO puzzles (user_name, title, rows, cols, cells, cellId, clues) VALUES
             {"2 down", "d"}
         }'
     );
+
+COMMIT;
