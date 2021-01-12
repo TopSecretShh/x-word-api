@@ -31,3 +31,5 @@ usersRouter
       })
       .catch(next);
   });
+
+module.exports = usersRouter;
