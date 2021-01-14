@@ -5,7 +5,6 @@ const { requireAuth } = require("../middleware/jwt-auth");
 const usersRouter = express.Router();
 const jsonParser = express.json();
 
-// TODO does this route need to be protected? it returns user names and passwords!
 usersRouter
   .route("/")
   .get((req, res, next) => {
@@ -50,6 +49,11 @@ usersRouter
       }
     );
   });
+
+// TODO see if this sends just the user_name
+usersRouter.route("/getusername").get(requireAuth, (req, res) => {
+  res.send(req.user.user_name);
+});
 
 usersRouter
   .route("/:user_name")
