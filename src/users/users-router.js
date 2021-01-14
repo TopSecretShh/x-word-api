@@ -1,10 +1,11 @@
 const express = require("express");
-const { hasUserWithUsername } = require("./users-service");
 const UsersService = require("./users-service");
+const { requireAuth } = require("../middleware/jwt-auth");
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
 
+// TODO does this route need to be protected? it returns user names and passwords!
 usersRouter
   .route("/")
   .get((req, res, next) => {
@@ -29,11 +30,9 @@ usersRouter
     UsersService.hasUserWithUsername(req.app.get("db"), user_name).then(
       (hasUserWithUsername) => {
         if (hasUserWithUsername)
-          return res
-            .status(400)
-            .json({
-              error: { message: `Username already exists in database` },
-            });
+          return res.status(400).json({
+            error: { message: `Username already exists in database` },
+          });
 
         return UsersService.hashPassword(password)
           .then((hashedPassword) => {
@@ -54,6 +53,7 @@ usersRouter
 
 usersRouter
   .route("/:user_name")
+  .all(requireAuth)
   .all((req, res, next) => {
     UsersService.getUserByUsername(
       req.app.get("db"),

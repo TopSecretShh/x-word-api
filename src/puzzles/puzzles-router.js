@@ -1,5 +1,6 @@
 const express = require("express");
 const PuzzlesService = require("./puzzles-service");
+const { requireAuth } = require("../middleware/jwt-auth");
 
 const puzzlesRouter = express.Router();
 const jsonParser = express.json();
@@ -13,7 +14,7 @@ puzzlesRouter
       })
       .catch(next);
   })
-  .post(jsonParser, (req, res, next) => {
+  .post(requireAuth, jsonParser, (req, res, next) => {
     const {
       user_id,
       title,
@@ -50,7 +51,7 @@ puzzlesRouter
       .catch(next);
   });
 
-puzzlesRouter.route("/user/:user_id").get((req, res, next) => {
+puzzlesRouter.route("/user/:user_id").get(requireAuth, (req, res, next) => {
   PuzzlesService.getByUserId(req.app.get("db"), req.params.user_id).then(
     (user) => {
       res.user = user;
@@ -62,6 +63,7 @@ puzzlesRouter.route("/user/:user_id").get((req, res, next) => {
 
 puzzlesRouter
   .route("/:puzzle_id")
+  .all(requireAuth)
   .all((req, res, next) => {
     PuzzlesService.getById(req.app.get("db"), req.params.puzzle_id).then(
       (puzzle) => {
