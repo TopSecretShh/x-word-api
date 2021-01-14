@@ -27,7 +27,7 @@ const PuzzlesService = {
       cols: puzzle.cols,
       blocks: puzzle.blocks,
       letters: puzzle.letters,
-      cellId: puzzle.cellId,
+      cell_id: puzzle.cell_id,
       clues: puzzle.clues,
     };
   },

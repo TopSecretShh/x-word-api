@@ -6,7 +6,7 @@ CREATE TABLE puzzles (
     cols INTEGER NOT NULL,
     blocks BOOLEAN [] NOT NULL,
     letters TEXT [] NOT NULL,
-    cellId INTEGER [] NOT NULL,
+    cell_id INTEGER [] NOT NULL,
     clues TEXT [][] NOT NULL
 );
 

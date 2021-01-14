@@ -21,7 +21,7 @@ puzzlesRouter
       cols,
       blocks,
       letters,
-      cellId,
+      cell_id,
       clues,
     } = req.body;
     const newPuzzle = {
@@ -31,7 +31,7 @@ puzzlesRouter
       cols,
       blocks,
       letters,
-      cellId,
+      cell_id,
       clues,
     };
 
@@ -86,7 +86,7 @@ puzzlesRouter
       cols,
       blocks,
       letters,
-      cellId,
+      cell_id,
       clues,
     } = req.body;
     const puzzleToUpdate = {
@@ -96,7 +96,7 @@ puzzlesRouter
       cols,
       blocks,
       letters,
-      cellId,
+      cell_id,
       clues,
     };
 
@@ -104,7 +104,7 @@ puzzlesRouter
     if (numberOfValues < 8) {
       return res.status(400).json({
         error: {
-          message: `Request body must contain 'user_id', 'title', 'rows', 'cols', 'blocks', 'letters', 'cellId', and 'clues'`,
+          message: `Request body must contain 'user_id', 'title', 'rows', 'cols', 'blocks', 'letters', 'cell_id', and 'clues'`,
         },
       });
     }

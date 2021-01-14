@@ -11,7 +11,7 @@ INSERT INTO users (user_name, password) VALUES
         'bob'
     );
 
-INSERT INTO puzzles (user_id, title, rows, cols, blocks, letters, cellId, clues) VALUES 
+INSERT INTO puzzles (user_id, title, rows, cols, blocks, letters, cell_id, clues) VALUES 
     (
         1,
         'Small',
