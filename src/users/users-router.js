@@ -1,4 +1,5 @@
 const express = require("express");
+const { hasUserWithUsername } = require("./users-service");
 const UsersService = require("./users-service");
 
 const usersRouter = express.Router();
@@ -25,11 +26,50 @@ usersRouter
       }
     }
 
-    return UsersService.insertUser(req.app.get("db"), newUser)
-      .then((user) => {
-        res.status(201).json(UsersService.serializeUser(user));
-      })
-      .catch(next);
+    UsersService.hasUserWithUsername(req.app.get("db"), user_name).then(
+      (hasUserWithUsername) => {
+        if (hasUserWithUsername)
+          return res
+            .status(400)
+            .json({
+              error: { message: `Username already exists in database` },
+            });
+
+        return UsersService.hashPassword(password)
+          .then((hashedPassword) => {
+            const newUser = {
+              user_name,
+              password: hashedPassword,
+            };
+            return UsersService.insertUser(req.app.get("db"), newUser).then(
+              (user) => {
+                res.status(201).json(UsersService.serializeUser(user));
+              }
+            );
+          })
+          .catch(next);
+      }
+    );
+  });
+
+usersRouter
+  .route("/:user_name")
+  .all((req, res, next) => {
+    UsersService.getUserByUsername(
+      req.app.get("db"),
+      req.params.user_name
+    ).then((user) => {
+      if (!user) {
+        return res
+          .status(404)
+          .json({ error: { message: `User doesn't exist` } });
+      }
+      res.user = user;
+      next();
+    });
+  })
+  .get((req, res, next) => {
+    res.json(UsersService.serializeUser(res.user));
   });
 
 module.exports = usersRouter;

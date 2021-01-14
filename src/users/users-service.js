@@ -1,4 +1,5 @@
 const xss = require("xss");
+const bcrypt = require("bcryptjs");
 
 const UsersService = {
   getAllUsers(db) {
@@ -6,6 +7,9 @@ const UsersService = {
   },
   getUserById(db, id) {
     return db.from("users").select("*").where("id", id).first();
+  },
+  getUserByUsername(db, user_name) {
+    return db.from("users").select("*").where("user_name", user_name).first();
   },
   insertUser(db, newUser) {
     return db
@@ -21,6 +25,15 @@ const UsersService = {
       user_name: xss(user.user_name),
       password: xss(user.password),
     };
+  },
+  hashPassword(password) {
+    return bcrypt.hash(password, 12);
+  },
+  hasUserWithUsername(db, user_name) {
+    return db("users")
+      .where({ user_name })
+      .first()
+      .then((user) => !!user);
   },
 };
 
