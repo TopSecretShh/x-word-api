@@ -23,7 +23,8 @@ puzzlesRouter
       blocks,
       letters,
       cell_id,
-      clues,
+      clues_across,
+      clues_down,
     } = req.body;
     const newPuzzle = {
       user_id,
@@ -33,7 +34,8 @@ puzzlesRouter
       blocks,
       letters,
       cell_id,
-      clues,
+      clues_across,
+      clues_down,
     };
 
     for (const [key, value] of Object.entries(newPuzzle)) {

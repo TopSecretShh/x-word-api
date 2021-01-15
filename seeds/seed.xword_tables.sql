@@ -8,10 +8,11 @@ TRUNCATE
 INSERT INTO users (user_name, password) VALUES
     (
         'Bob',
-        'bob'
+        -- hoping that the below hash equals 'bob'
+        '$2a$12$iXnTAVkI9.TT66clQPC9KOWwchihXk1sFnYnRxMZ9veQc90IV5D3S'
     );
 
-INSERT INTO puzzles (user_id, title, rows, cols, blocks, letters, cell_id, clues) VALUES 
+INSERT INTO puzzles (user_id, title, rows, cols, blocks, letters, cell_id, clues_across, clues_down) VALUES 
     (
         1,
         'Small',
@@ -36,7 +37,10 @@ INSERT INTO puzzles (user_id, title, rows, cols, blocks, letters, cell_id, clues
         }',
         '{
             {"1 across", "a"},
-            {"2 across", "b"},
+            {"2 across", "b"}
+            
+        }',
+        '{
             {"1 down", "c"},
             {"2 down", "d"}
         }'

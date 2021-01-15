@@ -52,7 +52,7 @@ usersRouter
 
 // TODO see if this sends just the user_name
 usersRouter.route("/getusername").get(requireAuth, (req, res) => {
-  res.send(req.user.user_name);
+  res.send(req.user);
 });
 
 usersRouter

@@ -7,7 +7,8 @@ CREATE TABLE puzzles (
     blocks BOOLEAN [] NOT NULL,
     letters TEXT [] NOT NULL,
     cell_id INTEGER [] NOT NULL,
-    clues TEXT [][] NOT NULL
+    clues_across TEXT [][] NOT NULL,
+    clues_down TEXT [][] NOT NULL
 );
 
 
