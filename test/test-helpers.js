@@ -5,16 +5,24 @@ const jwt = require("jsonwebtoken");
 function makeUsersArray() {
   return [
     {
-      id: 1,
+      id: 2,
       user_name: "Bob",
       password: "bob",
     },
     {
-      id: 2,
+      id: 3,
       user_name: "Jim",
       password: "jim",
     },
   ];
+}
+
+function makeExpectedUser(user) {
+  return {
+    id: user.id,
+    user_name: user.user_name,
+    password: user.password,
+  };
 }
 
 function seedUsers(db, users) {
@@ -29,6 +37,25 @@ function seedUsers(db, users) {
     .then(() =>
       db.raw(`SELECT setval('users_id_seq', ?)`, [users[users.length - 1].id])
     );
+}
+
+function makeMaliciousUser() {
+  const maliciousUser = {
+    id: 911,
+    user_name: '<script>alert("xss");</script>',
+    password: '<script>alert("xss");</script>',
+  };
+  const expectedUser = {
+    id: 911,
+    user_name: '&lt;script&gt;alert("xss");&lt;/script&gt;',
+    password: '&lt;script&gt;alert("xss");&lt;/script&gt;',
+  };
+
+  return { maliciousUser, expectedUser };
+}
+
+function seedMaliciousUser(db, user) {
+  return db.into("users").insert([user]);
 }
 
 // END USERS
@@ -60,7 +87,10 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 
 module.exports = {
   makeUsersArray,
+  makeExpectedUser,
   seedUsers,
+  makeMaliciousUser,
+  seedMaliciousUser,
 
   makeFixtures,
   cleanTables,

@@ -55,22 +55,22 @@ usersRouter.route("/getusername").get(requireAuth, (req, res) => {
   res.send(req.user);
 });
 
+// TODO this should be id, not user name
 usersRouter
-  .route("/:user_name")
+  .route("/:user_id")
   .all(requireAuth)
   .all((req, res, next) => {
-    UsersService.getUserByUsername(
-      req.app.get("db"),
-      req.params.user_name
-    ).then((user) => {
-      if (!user) {
-        return res
-          .status(404)
-          .json({ error: { message: `User doesn't exist` } });
+    UsersService.getUserById(req.app.get("db"), req.params.user_id).then(
+      (user) => {
+        if (!user) {
+          return res
+            .status(404)
+            .json({ error: { message: `User doesn't exist` } });
+        }
+        res.user = user;
+        next();
       }
-      res.user = user;
-      next();
-    });
+    );
   })
   .get((req, res, next) => {
     res.json(UsersService.serializeUser(res.user));

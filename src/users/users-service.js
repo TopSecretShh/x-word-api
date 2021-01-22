@@ -8,6 +8,7 @@ const UsersService = {
   getUserById(db, id) {
     return db.from("users").select("*").where("id", id).first();
   },
+  // TODO do we need the below for anything? I don't think so...
   getUserByUsername(db, user_name) {
     return db.from("users").select("*").where("user_name", user_name).first();
   },
