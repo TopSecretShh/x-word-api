@@ -51,11 +51,11 @@ usersRouter
   });
 
 // TODO see if this sends just the user_name
+// TODO no test written for this...
 usersRouter.route("/getusername").get(requireAuth, (req, res) => {
   res.send(req.user);
 });
 
-// TODO this should be id, not user name
 usersRouter
   .route("/:user_id")
   .all(requireAuth)

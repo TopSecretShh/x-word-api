@@ -18,17 +18,24 @@ const PuzzlesService = {
       .then(([puzzle]) => puzzle)
       .then((puzzle) => PuzzlesService.getById(db, puzzle.id));
   },
+  // TODO how to xss only the second element in nested arrays of clue arrays
   serializePuzzle(puzzle) {
     return {
       id: puzzle.id,
       user_id: puzzle.user_id,
-      title: puzzle.title,
+      title: xss(puzzle.title),
       rows: puzzle.rows,
       cols: puzzle.cols,
       blocks: puzzle.blocks,
       letters: puzzle.letters,
       cell_id: puzzle.cell_id,
-      clues: puzzle.clues,
+      // clues_across: xss(puzzle.clues_across, {
+      //   whiteList: [],
+      //   stripIgnoreTag: true,
+      //   stripIgnoreTagBody: ["script"],
+      // }),
+      clues_across: puzzle.clues_across,
+      clues_down: puzzle.clues_down,
     };
   },
   deletePuzzle(db, id) {

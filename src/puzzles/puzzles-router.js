@@ -56,6 +56,11 @@ puzzlesRouter
 puzzlesRouter.route("/user/:user_id").get(requireAuth, (req, res, next) => {
   PuzzlesService.getByUserId(req.app.get("db"), req.params.user_id).then(
     (user) => {
+      if (!user.length) {
+        return res
+          .status(404)
+          .json({ error: { message: `User doesn't exist` } });
+      }
       res.user = user;
       res.json(res.user);
       next();
@@ -71,7 +76,7 @@ puzzlesRouter
       (puzzle) => {
         if (!puzzle) {
           return res
-            .status(400)
+            .status(404)
             .json({ error: { message: `Puzzle doesn't exist` } });
         }
         res.puzzle = puzzle;

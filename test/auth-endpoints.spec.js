@@ -47,7 +47,7 @@ describe("Auth endpoints", function () {
       });
     });
 
-    // TODO not sure why this test isn't working... the passwords are hashing differently?
+    // TODO not sure why this test isn't working...
     it(`responds with 200 and JWT auth token using secret when valid credentials`, () => {
       const validUserCreds = {
         user_name: testUser.user_name,
